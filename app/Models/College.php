@@ -20,7 +20,20 @@ class College extends Model
         'adr_ville',
         'adr_region',
         'commentaire',
+        'code_pays',
     ];
+
+    /**
+     * Récupère la liste des collèges depuis la base de données.
+     *
+     * @param bool $asArray Si true retourne un tableau simple, sinon une Collection Eloquent.
+     * @return \Illuminate\Database\Eloquent\Collection|array
+     */
+    public static function getAllColleges(bool $asArray = false)
+    {
+        $colleges = self::orderBy('nom')->get();
+        return $asArray ? $colleges->toArray() : $colleges;
+    }
 
     // Timestamps automatiques (created_at et updated_at)
     public $timestamps = true;
