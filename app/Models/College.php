@@ -36,5 +36,5 @@ class College extends Model
     }
 
     // Timestamps automatiques (created_at et updated_at)
-    public $timestamps = true;
+   // public $timestamps = true;
 }
