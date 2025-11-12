@@ -40,9 +40,11 @@ class CollegesController extends Controller
         return redirect()->back()->with('success', 'Collège créé avec succès !');
     }
 
-    public function listColleges()
-    {
-        $colleges = College::getAllColleges();
-        return view('listeCollege', ['colleges' => $colleges]);
-    }
+  public function listColleges() {
+    $colleges = College::all();
+    return view('listeCollege', compact('colleges'));
+
+}
+
+
 }

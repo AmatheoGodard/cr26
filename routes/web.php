@@ -18,7 +18,9 @@ Route::get('/colleges/create', function () {
 })->name('colleges.form');
 Route::post('/colleges', [CollegesController::class, 'createCollege'])->name('colleges.create');     
 
-Route::get('/colleges/liste', function () {
-    return view('listeCollege');
-})->name('colleges.list');
-Route::post('/colleges', [CollegesController::class, 'createCollege'])->name('colleges.liste');
+
+Route::get('/colleges/liste', [CollegesController::class, 'listColleges'])
+    ->name('colleges.list');
+
+Route::post('/colleges', [CollegesController::class, 'createCollege'])
+    ->name('colleges.create');

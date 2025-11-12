@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un Collège</title>
-    <link rel="stylesheet" href="{{ asset('css/addCollege.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pico.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -17,7 +18,7 @@
         <main class="main-content">
             
             <!-- Formulaire d'ajout -->
-            <form action="{{ route('colleges.create') }}" method="POST">
+            <form action="{{ route('colleges.form') }}" method="POST">
                 @csrf
 
                 <label for="code">Code :</label>
