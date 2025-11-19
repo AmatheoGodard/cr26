@@ -19,6 +19,15 @@
             width: 100%;
             border-collapse: collapse;
         }
+
+        /* Optionnel : style pour le champ de recherche */
+        #searchInput {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -44,6 +53,9 @@
         <article class="alert error">{{ session('error') }}</article>
         @endif
 
+        {{-- Champ de recherche --}}
+        <input type="text" id="searchInput" placeholder="Rechercher dans le tableau...">
+
         @if($colleges->isEmpty())
         <article class="alert warning">
             Aucun collège trouvé.
@@ -57,7 +69,7 @@
         ];
         @endphp
 
-        <table>
+        <table id="collegesTable">
             <thead>
                 <tr>
                     @foreach ($columns as $col)
@@ -87,6 +99,32 @@
     <footer class="container">
         <p>&copy; {{ date('Y') }} Concours Robot</p>
     </footer>
+
+    {{-- Script de recherche côté client --}}
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const table = document.getElementById('collegesTable');
+        const rows = table ? table.getElementsByTagName('tr') : [];
+
+        searchInput.addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+
+            for (let i = 1; i < rows.length; i++) { // commencer à 1 pour ignorer l'en-tête
+                let row = rows[i];
+                let cells = row.getElementsByTagName('td');
+                let found = false;
+
+                for (let j = 0; j < cells.length - 1; j++) { // ignorer la dernière colonne Actions
+                    if (cells[j].textContent.toLowerCase().includes(filter)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                row.style.display = found ? '' : 'none';
+            }
+        });
+    </script>
 
 </body>
 
