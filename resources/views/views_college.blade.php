@@ -18,7 +18,6 @@
         <nav>
             <ul>
                 <li><a href="{{ url('/') }}">Accueil</a></li>
-                <li><a href="{{ route('colleges.form') }}">Ajouter un collège</a></li>
                 <li><a href="{{ route('colleges.list') }}">Liste des collèges</a></li>
                 <li><a href="{{ route('colleges.deletePage') }}">Supprimer un collège</a></li>
             </ul>
