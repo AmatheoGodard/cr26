@@ -1,22 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>CONCOURS ROBOT</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{-- Pico.css CDN --}}
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    {{-- Si tu as ton CSS perso, tu peux le garder --}}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
-<header>
-    <a href="/">Accueil</a>
-    <li><a href="/colleges/create">Ajouter un collège</a>
-        <a href="/colleges/liste">Liste des collèges</a>
-        <a href="/colleges/1/edit">Modifier un collège</a>
-    </li>
-</header>
 
 <body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url('/') }}">Accueil</a></li>
+                <li><a href="{{ route('colleges.form') }}">Ajouter un collège</a></li>
+                <li><a href="{{ route('colleges.list') }}">Liste des collèges</a></li>
+                <li><a href="{{ route('colleges.deletePage') }}">Supprimer un collège</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        @yield('content')
+    </main>
+
+    <footer>
+        <p>&copy; {{ date('Y') }} Concours Robot</p>
+    </footer>
 
 </body>
 

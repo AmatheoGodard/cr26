@@ -1,26 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
- Route::get('/', function () {
-     return view('views_college');
- });
-
-
-//  // Controller TestController
-// use App\Http\Controllers\TestController;
-// Route::get('/', [TestController::class, 'index']);
-
-// Controller CollegesController
 use App\Http\Controllers\CollegesController;
-Route::get('/colleges/create', function () {
-    return view('addCollege');
-})->name('colleges.form');
-Route::post('/colleges', [CollegesController::class, 'createCollege'])->name('colleges.create');     
 
+// Page d'accueil
+Route::get('/', function () {
+    return view('views_college'); // ou 'welcome' si tu préfères
+})->name('home');
 
+// Afficher le formulaire pour ajouter un collège
+Route::get('/colleges/create', [CollegesController::class, 'createForm'])
+    ->name('colleges.form');
+
+// Enregistrer un nouveau collège
+Route::post('/colleges', [CollegesController::class, 'createCollege'])
+    ->name('colleges.create');
+
+// Liste des collèges
 Route::get('/colleges/liste', [CollegesController::class, 'listColleges'])
     ->name('colleges.list');
 
-Route::post('/colleges', [CollegesController::class, 'createCollege'])
-    ->name('colleges.create');
+// Page pour supprimer un collège
+Route::get('/colleges/supprimer', [CollegesController::class, 'deletePage'])
+    ->name('colleges.deletePage');
+
+// Supprimer un collège
+Route::delete('/colleges/{id}', [CollegesController::class, 'destroy'])
+    ->name('colleges.destroy');

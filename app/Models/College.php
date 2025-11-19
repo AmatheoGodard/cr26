@@ -23,6 +23,9 @@ class College extends Model
         'code_pays',
     ];
 
+    // Timestamps automatiques (created_at et updated_at)
+    public $timestamps = true;
+
     /**
      * Récupère la liste des collèges depuis la base de données.
      *
@@ -35,6 +38,19 @@ class College extends Model
         return $asArray ? $colleges->toArray() : $colleges;
     }
 
-    // Timestamps automatiques (created_at et updated_at)
-   // public $timestamps = true;
+    /**
+     * Accessor pour retourner la ville en majuscules
+     */
+    public function getAdrVilleAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    /**
+     * Accessor pour retourner le code pays en majuscules
+     */
+    public function getCodePaysAttribute($value)
+    {
+        return strtoupper($value);
+    }
 }
