@@ -27,3 +27,9 @@ Route::get('/colleges/supprimer', [CollegesController::class, 'deletePage'])
 // Supprimer un collège
 Route::delete('/colleges/{id}', [CollegesController::class, 'destroy'])
     ->name('colleges.destroy');
+
+// Afficher le formulaire d'édition d'un collège
+Route::get('/colleges/{id}/edit', [CollegesController::class, 'edit'])->name('colleges.edit');
+
+// Mettre à jour le collège dans la base de données
+Route::put('/colleges/{id}', [CollegesController::class, 'update'])->name('colleges.update');

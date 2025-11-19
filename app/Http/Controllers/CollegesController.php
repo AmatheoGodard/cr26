@@ -144,4 +144,64 @@ class CollegesController extends Controller
             return back()->with('error', 'Impossible de supprimer le collège.');
         }
     }
+
+    /**
+ * Affiche le formulaire pour éditer un collège existant
+ * 
+ * @param int $id ID du collège
+ * @return \Illuminate\View\View
+ */
+public function edit($id)
+{
+    try {
+        $college = College::findOrFail($id); // Récupère le collège ou échoue
+        return view('editCollege', compact('college'));
+    } catch (\Exception $e) {
+        Log::error('Erreur lors de l\'édition du collège : ' . $e->getMessage());
+        return back()->with('error', 'Impossible de charger le collège pour modification.');
+    }
+}
+
+/**
+ * Met à jour un collège dans la base de données
+ * 
+ * @param Request $request
+ * @param int $id ID du collège
+ * @return \Illuminate\Http\RedirectResponse
+ */
+public function update(Request $request, $id)
+{
+    try {
+        $college = College::findOrFail($id);
+
+        $validated = $request->validate([
+            'code' => 'nullable|string|max:10',
+            'nom' => 'required|string|max:100',
+            'adr_ligne_1' => 'nullable|string|max:50',
+            'adr_ligne_2' => 'nullable|string|max:50',
+            'adr_lieu' => 'nullable|string|max:50',
+            'adr_code_postal' => 'nullable|string|max:10',
+            'adr_ville' => 'nullable|string|max:50',
+            'adr_region' => 'nullable|string|max:50',
+            'commentaire' => 'nullable|string|max:250',
+            'code_pays' => 'required|string|max:5',
+        ]);
+
+        // Mise en majuscules si nécessaire
+        if (!empty($validated['code'])) $validated['code'] = strtoupper($validated['code']);
+        if (!empty($validated['adr_ville'])) $validated['adr_ville'] = strtoupper($validated['adr_ville']);
+        if (!empty($validated['code_pays'])) $validated['code_pays'] = strtoupper($validated['code_pays']);
+
+        $college->update($validated);
+
+        return redirect()->route('colleges.list')->with('success', 'Collège mis à jour avec succès !');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return back()->withErrors($e->errors())->withInput();
+    } catch (\Exception $e) {
+        Log::error('Erreur lors de la mise à jour du collège : ' . $e->getMessage());
+        return back()->with('error', 'Impossible de mettre à jour le collège.');
+    }
+}
+
 }
