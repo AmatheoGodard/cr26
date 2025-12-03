@@ -15,6 +15,11 @@
 <body>
 
     <header>
+        
+    </header>
+
+    <main class="container">
+        @yield('content')
         <nav>
             <ul>
                 <li><a href="{{ url('/') }}">Accueil</a></li>
@@ -22,10 +27,6 @@
                 <li><a href="{{ route('colleges.deletePage') }}">Supprimer un collège</a></li>
             </ul>
         </nav>
-    </header>
-
-    <main class="container">
-        @yield('content')
     </main>
 
     <footer>
