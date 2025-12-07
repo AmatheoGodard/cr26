@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollegesController;
+use Livewire\Volt\Volt;
+
 
 // Page d'accueil
 Route::get('/', function () {
-    return view('views_college'); // ou 'welcome' si tu préfères
+    return view('accueil'); // ou 'welcome' si tu préfères
 })->name('home');
 
 // Afficher le formulaire pour ajouter un collège
@@ -33,3 +35,9 @@ Route::get('/colleges/{id}/edit', [CollegesController::class, 'edit'])->name('co
 
 // Mettre à jour le collège dans la base de données
 Route::put('/colleges/{id}', [CollegesController::class, 'update'])->name('colleges.update');
+
+
+// Connexion
+Volt::route('login', 'livewire.pages.auth.login')->name('login');
+Volt::route('register', 'pages.auth.register')->name('register');
+Volt::route('logout', 'pages.auth.logout')->name('logout');
