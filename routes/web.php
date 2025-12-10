@@ -30,20 +30,18 @@ Route::get('/colleges/create', [CollegesController::class, 'createForm'])
     ->name('colleges.form');
 
 // Enregistrer un nouveau collège
-Route::post('/colleges', [CollegesController::class, 'createCollege'])
+Route::post('/colleges/create', [CollegesController::class, 'createCollege'])
     ->name('colleges.create');
 
 // Liste des collèges
 Route::get('/colleges/liste', [CollegesController::class, 'listColleges'])
     ->name('colleges.list');
 
-// Page pour supprimer un collège
+Route::delete('/colleges/{id}/supprimer', [CollegesController::class, 'destroy'])
+    ->name('colleges.destroy');
+
 Route::get('/colleges/supprimer', [CollegesController::class, 'deletePage'])
     ->name('colleges.deletePage');
-
-// Supprimer un collège
-Route::delete('/colleges/{id}', [CollegesController::class, 'destroy'])
-    ->name('colleges.destroy');
 
 // Afficher le formulaire d'édition d'un collège
 Route::get('/colleges/{id}/edit', [CollegesController::class, 'edit'])->name('colleges.edit');

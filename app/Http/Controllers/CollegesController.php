@@ -121,29 +121,21 @@ class CollegesController extends Controller
      * @param Request $request Requête contenant l'ID du collège à supprimer
      * @return \Illuminate\Http\RedirectResponse Redirection avec message
      */
-    public function destroy(Request $request)
-    {
-        try {
-            // Récupère l'ID du collège depuis le formulaire
-            $id = $request->input('college_id');
+    public function destroy($id)
+{
+    try {
+        $college = College::findOrFail($id);
+        $college->delete();
 
-            // Recherche le collège ou échoue si inexistant
-            $college = College::findOrFail($id);
-
-            // Supprime le collège
-            $college->delete();
-
-            // Redirection avec succès
-            return back()->with('success', 'Collège supprimé avec succès');
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Cas où le collège n'existe pas
-            return back()->with('error', 'Collège introuvable.');
-        } catch (\Exception $e) {
-            // Autres erreurs imprévues
-            Log::error('Erreur lors de la suppression du collège : ' . $e->getMessage());
-            return back()->with('error', 'Impossible de supprimer le collège.');
-        }
+        return redirect()->route('colleges.deletePage')->with('success', 'Collège supprimé avec succès !');
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return redirect()->route('colleges.deletePage')->with('error', 'Collège introuvable.');
+    } catch (\Exception $e) {
+        \Log::error('Erreur lors de la suppression du collège : ' . $e->getMessage());
+        return redirect()->route('colleges.deletePage')->with('error', 'Impossible de supprimer le collège.');
     }
+}
+
 
     /**
  * Affiche le formulaire pour éditer un collège existant
