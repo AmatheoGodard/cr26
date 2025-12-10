@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un Collège</title>
     
-    <!-- Pico CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <!-- Pico.css -->
+    <link rel="stylesheet" href="{{ asset('css/pico.css') }}">
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <style>
         /* Personnalisation légère */
@@ -43,16 +45,12 @@
         <nav>
             <ul>
                 <li><a href="{{ url('/') }}">Accueil</a></li>
-                <li><a href="{{ route('colleges.list') }}">Liste des collèges</a></li>
+                <li><a href="{{ route('colleges.create') }}">Ajouter un collège</a></li>
                 <li><a href="{{ route('colleges.deletePage') }}">Supprimer un collège</a></li>
             </ul>
         </nav>
 </header>
 <body>
-    <header role="banner">
-        Ajouter un Collège
-    </header>
-
     <main>
         <h2>Liste des Collèges</h2>
 
@@ -70,6 +68,7 @@
                         <th>Région</th>
                         <th>Commentaire</th>
                         <th>Pays</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,6 +84,9 @@
                             <td>{{ $college->adr_region }}</td>
                             <td>{{ $college->commentaire }}</td>
                             <td>{{ $college->code_pays }}</td>
+                            <td>
+                <a href="{{ route('colleges.edit', $college->id) }}" class="button">Modifier</a>
+            </td>
                         </tr>
                     @endforeach
                 </tbody>

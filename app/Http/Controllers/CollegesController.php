@@ -23,7 +23,7 @@ class CollegesController extends Controller
     public function createForm()
     {
         // Retourne la vue "addCollege.blade.php"
-        return view('addCollege');
+        return view('gestion.addCollege');
     }
 
     /**
@@ -87,7 +87,7 @@ class CollegesController extends Controller
             $colleges = College::all();
 
             // Retourne la vue "listeCollege.blade.php" avec la variable $colleges
-            return view('listeCollege', compact('colleges'));
+            return view('gestion.listeCollege', compact('colleges'));
         } catch (\Exception $e) {
             // En cas d'erreur, on log et on renvoie un message
             Log::error('Erreur lors de la récupération des collèges : ' . $e->getMessage());
@@ -107,7 +107,7 @@ class CollegesController extends Controller
             $colleges = College::all();
 
             // Retourne la vue "suppCollege.blade.php" avec la variable $colleges
-            return view('suppCollege', compact('colleges'));
+            return view('gestion.suppCollege', compact('colleges'));
         } catch (\Exception $e) {
             // Log et message d'erreur
             Log::error('Erreur lors de l\'affichage de la page de suppression : ' . $e->getMessage());
@@ -155,7 +155,7 @@ public function edit($id)
 {
     try {
         $college = College::findOrFail($id); // Récupère le collège ou échoue
-        return view('editCollege', compact('college'));
+        return view('gestion.editCollege', compact('college'));
     } catch (\Exception $e) {
         Log::error('Erreur lors de l\'édition du collège : ' . $e->getMessage());
         return back()->with('error', 'Impossible de charger le collège pour modification.');

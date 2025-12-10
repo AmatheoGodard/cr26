@@ -1,5 +1,20 @@
 <?php
 
+//use Illuminate\Support\Facades\Route;
+
+//Route::view('/', 'welcome');
+//
+//Route::view('dashboard', 'dashboard')
+//    ->middleware(['auth', 'verified'])
+//    ->name('dashboard');
+//
+//Route::view('profile', 'profile')
+//    ->middleware(['auth'])
+//    ->name('profile');
+
+require __DIR__.'/auth.php';
+
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollegesController;
 use Livewire\Volt\Volt;
@@ -36,8 +51,20 @@ Route::get('/colleges/{id}/edit', [CollegesController::class, 'edit'])->name('co
 // Mettre à jour le collège dans la base de données
 Route::put('/colleges/{id}', [CollegesController::class, 'update'])->name('colleges.update');
 
-
 // Connexion
-Volt::route('login', 'livewire.pages.auth.login')->name('login');
+Volt::route('login', 'pages.auth.login')->name('login');
 Volt::route('register', 'pages.auth.register')->name('register');
 Volt::route('logout', 'pages.auth.logout')->name('logout');
+
+
+Route::resource('users', UserController::class);
+
+Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
+
+require __DIR__ . '/auth.php';
