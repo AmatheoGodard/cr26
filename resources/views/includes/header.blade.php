@@ -9,10 +9,8 @@
 
     <ul class="nav-links" id="nav-links">
 
-        <!-- Toujours visible -->
         <li><a href="{{ route('home') }}">Accueil</a></li>
 
-        <!-- Menu invité -->
         @guest
             <li class="dropdown">
                 <a href="#">Collèges ▾</a>
@@ -43,7 +41,6 @@
         @endguest
 
 
-        <!-- Menu connecté -->
         @auth
             <li class="dropdown">
                 <a href="#">Collèges ▾</a>
@@ -53,8 +50,8 @@
                 </ul>
             </li>
 
-            <li><a href="">Épreuves</a></li>
-            <li><a href="">Classement</a></li>
+            <!-- <li><a href="">Épreuves</a></li> -->
+            <!-- <li><a href="">Classement</a></li> -->
 
             <li class="dropdown">
                 <a href="#">Édition ▾</a>
@@ -64,7 +61,7 @@
                 </ul>
             </li>
 
-            <li><a href="">Saisie Note</a></li>
+            <!-- <li><a href="">Saisie Note</a></li> -->
 
             <li class="dropdown">
                 <a href="#">Page Gestion ▾</a>
@@ -90,13 +87,17 @@
                 <ul class="dropdown-menu">
                     <li><a href="">Genre</a></li>
                     <li><a href="">Utilisateurs</a></li>
-                    <li><a href="">Pays</a></li>
+                    <li><a href="{{ route('pays.list') }}">Pays</a></li>
                 </ul>
             </li>
 
-            <!-- Déconnexion (Livewire Breeze)  -->
             <li>
-                @livewire('layout.navigation')
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="logout-btn" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;">
+                        Déconnexion
+                    </button>
+                </form>
             </li>
         @endauth
     </ul>

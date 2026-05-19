@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-@include('includes.header');
+@include('includes.header')
 
 <section aria-labelledby="hero-title" style="margin-top:1rem">
         <article class="grid" style="align-items:center">
@@ -37,4 +37,4 @@
           </figure>
         </article>
       </section>
-@include('includes.footer');
+@include('includes.footer')

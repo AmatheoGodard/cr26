@@ -1,92 +1,87 @@
-<!DOCTYPE html>
-<html lang="fr">
+{{-- resources/views/admin/addCollege.blade.php (ou le nom actuel de ta vue de création) --}}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un Collège</title>
+<x-app-layout>
+    <div class="container mt-4">
 
-    {{-- Pico.css --}}
-    <link rel="stylesheet" href="{{ asset('css/pico.css') }}">
-    {{-- CSS personnalisé --}}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-
-<body>
-
-    <header class="container">
-        <h1>Ajouter un Collège</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url('/') }}">Accueil</a></li>
-                <li><a href="{{ route('colleges.list') }}">Liste des collèges</a></li>
-                <li><a href="{{ route('colleges.deletePage') }}">Supprimer un collège</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
+        <h1 class="mb-4">Ajouter un Collège</h1>
 
         {{-- Message de succès --}}
         @if(session('success'))
-        <article class="alert success">
+        <div class="alert alert-success">
             {{ session('success') }}
-        </article>
+        </div>
         @endif
 
         {{-- Message d'erreur --}}
         @if($errors->any())
-        <article class="alert error">
-            <ul>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
                 @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </article>
+        </div>
         @endif
 
         <form action="{{ route('colleges.create') }}" method="POST">
             @csrf
 
-            <label for="code">Code :</label>
-            <input type="text" name="code" id="code" value="{{ old('code') }}">
+            <div class="mb-3">
+                <label for="code" class="form-label">Code</label>
+                <input type="text" name="code" id="code" class="form-control" value="{{ old('code') }}">
+            </div>
 
-            <label for="nom">Nom <span style="color:red">*</span> :</label>
-            <input type="text" name="nom" id="nom" value="{{ old('nom') }}" required>
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
+                <input type="text" name="nom" id="nom" class="form-control" value="{{ old('nom') }}" required>
+            </div>
 
-            <label for="adr_ligne_1">Adresse ligne 1 :</label>
-            <input type="text" name="adr_ligne_1" id="adr_ligne_1" value="{{ old('adr_ligne_1') }}">
+            <div class="mb-3">
+                <label for="adr_ligne_1" class="form-label">Adresse ligne 1</label>
+                <input type="text" name="adr_ligne_1" id="adr_ligne_1" class="form-control" value="{{ old('adr_ligne_1') }}">
+            </div>
 
-            <label for="adr_ligne_2">Adresse ligne 2 :</label>
-            <input type="text" name="adr_ligne_2" id="adr_ligne_2" value="{{ old('adr_ligne_2') }}">
+            <div class="mb-3">
+                <label for="adr_ligne_2" class="form-label">Adresse ligne 2</label>
+                <input type="text" name="adr_ligne_2" id="adr_ligne_2" class="form-control" value="{{ old('adr_ligne_2') }}">
+            </div>
 
-            <label for="adr_lieu">Lieu :</label>
-            <input type="text" name="adr_lieu" id="adr_lieu" value="{{ old('adr_lieu') }}">
+            <div class="mb-3">
+                <label for="adr_lieu" class="form-label">Lieu</label>
+                <input type="text" name="adr_lieu" id="adr_lieu" class="form-control" value="{{ old('adr_lieu') }}">
+            </div>
 
-            <label for="adr_code_postal">Code postal :</label>
-            <input type="text" name="adr_code_postal" id="adr_code_postal" value="{{ old('adr_code_postal') }}">
+            <div class="mb-3">
+                <label for="adr_code_postal" class="form-label">Code postal</label>
+                <input type="text" name="adr_code_postal" id="adr_code_postal" class="form-control" value="{{ old('adr_code_postal') }}">
+            </div>
 
-            <label for="adr_ville">Ville :</label>
-            <input type="text" name="adr_ville" id="adr_ville" value="{{ old('adr_ville') }}">
+            <div class="mb-3">
+                <label for="adr_ville" class="form-label">Ville</label>
+                <input type="text" name="adr_ville" id="adr_ville" class="form-control" value="{{ old('adr_ville') }}">
+            </div>
 
-            <label for="adr_region">Région :</label>
-            <input type="text" name="adr_region" id="adr_region" value="{{ old('adr_region') }}">
+            <div class="mb-3">
+                <label for="adr_region" class="form-label">Région</label>
+                <input type="text" name="adr_region" id="adr_region" class="form-control" value="{{ old('adr_region') }}">
+            </div>
 
-            <label for="commentaire">Commentaire :</label>
-            <textarea name="commentaire" id="commentaire">{{ old('commentaire') }}</textarea>
+            <div class="mb-3">
+                <label for="commentaire" class="form-label">Commentaire</label>
+                <textarea name="commentaire" id="commentaire" class="form-control" rows="4">{{ old('commentaire') }}</textarea>
+            </div>
 
-            <label for="code_pays">Code pays :</label>
-            <input type="text" name="code_pays" id="code_pays" value="{{ old('code_pays') }}">
+            <select name="code_pays" id="code_pays" class="form-control">
+                <option value="">-- Sélectionner un pays --</option>
+                @foreach(\App\Models\Pays::all() as $p)
+                <option value="{{ $p->code }}" {{ old('code_pays') == $p->code ? 'selected' : '' }}>
+                    {{ $p->nom }} ({{ $p->code }})
+                </option>
+                @endforeach
+            </select><br>
 
-            <button type="submit">Ajouter</button>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
         </form>
 
-    </main>
-
-    <footer class="container">
-        <p>&copy; {{ date('Y') }} Concours Robot</p>
-    </footer>
-
-</body>
-
-</html>
+    </div>
+</x-app-layout>
