@@ -31,7 +31,7 @@ Route::prefix('colleges')->name('colleges.')->group(function () {
     Route::get('/create', [CollegesController::class, 'createForm'])->name('form');
     Route::post('/create', [CollegesController::class, 'createCollege'])->name('create');
     Route::get('/supprimer', [CollegesController::class, 'deletePage'])->name('deletePage');
-    
+
     // Routes avec paramètres (toujours en bas)
     Route::get('/{id}/edit', [CollegesController::class, 'edit'])->name('edit');
     Route::put('/{id}', [CollegesController::class, 'update'])->name('update');
@@ -61,13 +61,13 @@ Route::prefix('pays')->name('pays.')->group(function () {
 // ======================
 
 Route::middleware(['auth'])->group(function () {
-    
+
     // Dashboard / Accueil connecté
-    Route::view('/dashboard', 'accueil')->middleware(['verified'])->name('dashboard');
+    Route::view('/dashboard', 'accueil')->name('dashboard');
     
     // Profile
     Route::view('/profile', 'profile')->name('profile');
-    
+
     // Concours
     Route::prefix('concours')->name('concours.')->group(function () {
         Route::get('/', [ConcoursController::class, 'index'])->name('index');
