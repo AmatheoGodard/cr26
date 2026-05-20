@@ -61,13 +61,15 @@ Route::prefix('pays')->name('pays.')->group(function () {
 // ======================
 
 Route::middleware(['auth'])->group(function () {
-
-    // Dashboard / Accueil connecté
-    Route::view('/dashboard', 'accueil')->name('dashboard');
+    
+    // CORRECTION : Suppression de 'verified' qui causait le 404 si l'email n'était pas validé en BDD
+    Route::get('/dashboard', function () {
+        return view('accueil');
+    })->name('dashboard');
     
     // Profile
     Route::view('/profile', 'profile')->name('profile');
-
+    
     // Concours
     Route::prefix('concours')->name('concours.')->group(function () {
         Route::get('/', [ConcoursController::class, 'index'])->name('index');
