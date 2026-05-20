@@ -105,9 +105,9 @@ Route::resource('users', UserController::class);
 // DASHBOARD
 // ======================
 
-Route::view('dashboard', 'dashboard')
+Route::view('accueil', 'accueil')
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('home');
 
 
 // ======================
