@@ -89,5 +89,5 @@ Volt::route('register', 'pages.auth.register')->name('register');
 Volt::route('logout', 'pages.auth.logout')->name('logout');
 
 
-// Inclusion des routes auth par défaut (si Laravel Breeze est utilisé en parallèle)
-require __DIR__.'/auth.php';
+// CORRECTION : Commenter cette ligne pour éviter les conflits de middleware (guest vs auth)
+// require __DIR__.'/auth.php';
