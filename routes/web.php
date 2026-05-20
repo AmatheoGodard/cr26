@@ -1,12 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CollegesController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ConcoursController;
-
 use Livewire\Volt\Volt;
 
 /*
@@ -16,7 +14,7 @@ use Livewire\Volt\Volt;
 */
 
 // ======================
-// PAGE D'ACCUEIL
+// PAGES PUBLIQUES
 // ======================
 
 Route::get('/', function () {
@@ -28,99 +26,68 @@ Route::get('/', function () {
 // ROUTES COLLEGES
 // ======================
 
-// Formulaire ajout
-Route::get('/colleges/create', [CollegesController::class, 'createForm'])
-    ->name('colleges.form');
-
-// Création
-Route::post('/colleges/create', [CollegesController::class, 'createCollege'])
-    ->name('colleges.create');
-
-// Liste
-Route::get('/colleges/liste', [CollegesController::class, 'listColleges'])
-    ->name('colleges.list');
-
-// Page suppression
-Route::get('/colleges/supprimer', [CollegesController::class, 'deletePage'])
-    ->name('colleges.deletePage');
-
-// Suppression
-Route::delete('/colleges/{id}/supprimer', [CollegesController::class, 'destroy'])
-    ->name('colleges.destroy');
-
-// Formulaire édition
-Route::get('/colleges/{id}/edit', [CollegesController::class, 'edit'])
-    ->name('colleges.edit');
-
-// Mise à jour
-Route::put('/colleges/{id}', [CollegesController::class, 'update'])
-    ->name('colleges.update');
+Route::prefix('colleges')->name('colleges.')->group(function () {
+    Route::get('/liste', [CollegesController::class, 'listColleges'])->name('list');
+    Route::get('/create', [CollegesController::class, 'createForm'])->name('form');
+    Route::post('/create', [CollegesController::class, 'createCollege'])->name('create');
+    Route::get('/supprimer', [CollegesController::class, 'deletePage'])->name('deletePage');
+    
+    // Routes avec paramètres (toujours en bas)
+    Route::get('/{id}/edit', [CollegesController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [CollegesController::class, 'update'])->name('update');
+    Route::delete('/{id}/supprimer', [CollegesController::class, 'destroy'])->name('destroy');
+});
 
 
 // ======================
 // ROUTES PAYS
 // ======================
 
-// Les URLs simples (sans accolades) TOUJOURS EN PREMIER :
-Route::get('/pays/create', [PaysController::class, 'createForm'])->name('pays.form');
-Route::post('/pays/create', [PaysController::class, 'createPays'])->name('pays.create');
-Route::get('/pays/liste', [PaysController::class, 'listPays'])->name('pays.list');
-Route::get('/pays/supprimer', [PaysController::class, 'deletePage'])->name('pays.deletePage');
+Route::prefix('pays')->name('pays.')->group(function () {
+    Route::get('/liste', [PaysController::class, 'listPays'])->name('list');
+    Route::get('/create', [PaysController::class, 'createForm'])->name('form');
+    Route::post('/create', [PaysController::class, 'createPays'])->name('create');
+    Route::get('/supprimer', [PaysController::class, 'deletePage'])->name('deletePage');
 
-// Les URLs avec des variables {code} TOUJOURS EN DERNIER :
-Route::delete('/pays/{code}/supprimer', [PaysController::class, 'destroy'])->name('pays.destroy');
-Route::get('/pays/{code}/edit', [PaysController::class, 'edit'])->name('pays.edit');
-Route::put('/pays/{code}', [PaysController::class, 'update'])->name('pays.update');
+    // Routes avec paramètres (toujours en bas)
+    Route::get('/{code}/edit', [PaysController::class, 'edit'])->name('edit');
+    Route::put('/{code}', [PaysController::class, 'update'])->name('update');
+    Route::delete('/{code}/supprimer', [PaysController::class, 'destroy'])->name('destroy');
+});
 
 
 // ======================
-// ROUTES CONCOURS
+// ESPACE SÉCURISÉ (AUTH)
 // ======================
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/concours', [ConcoursController::class, 'index'])->name('concours.index');
-    Route::get('/concours/creer', [ConcoursController::class, 'create'])->name('concours.create');
-    Route::post('/concours/enregistrer', [ConcoursController::class, 'store'])->name('concours.store');
+    
+    // Dashboard / Accueil connecté
+    Route::view('/dashboard', 'accueil')->middleware(['verified'])->name('dashboard');
+    
+    // Profile
+    Route::view('/profile', 'profile')->name('profile');
+    
+    // Concours
+    Route::prefix('concours')->name('concours.')->group(function () {
+        Route::get('/', [ConcoursController::class, 'index'])->name('index');
+        Route::get('/creer', [ConcoursController::class, 'create'])->name('create');
+        Route::post('/enregistrer', [ConcoursController::class, 'store'])->name('store');
+    });
+
+    // Utilisateurs (CRUD complet via Resource)
+    Route::resource('users', UserController::class);
 });
 
+
 // ======================
-// AUTHENTIFICATION
+// AUTHENTIFICATION (LIVEWIRE VOLT)
 // ======================
 
 Volt::route('login', 'pages.auth.login')->name('login');
-
 Volt::route('register', 'pages.auth.register')->name('register');
-
 Volt::route('logout', 'pages.auth.logout')->name('logout');
 
 
-// ======================
-// USERS
-// ======================
-
-Route::resource('users', UserController::class);
-
-
-// ======================
-// DASHBOARD
-// ======================
-
-Route::view('accueil', 'accueil')
-    ->middleware(['auth', 'verified'])
-    ->name('home');
-
-
-// ======================
-// PROFILE
-// ======================
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
-
-// ======================
-// AUTH
-// ======================
-
+// Inclusion des routes auth par défaut (si Laravel Breeze est utilisé en parallèle)
 require __DIR__.'/auth.php';
