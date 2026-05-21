@@ -1,17 +1,5 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-
-    <!-- Pico.css -->
-    <link rel="stylesheet" href="{{ asset('css/pico.css') }}">
-    <!-- CSS personnalisé -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-
-@include('includes.header')
-
-<section aria-labelledby="hero-title" style="margin-top:1rem">
+<x-app-layout>
+    <section aria-labelledby="hero-title" style="margin-top:1rem">
         <article class="grid" style="align-items:center">
           <div>
             <h1 id="hero-title">Projet concours-robots</h1>
@@ -28,7 +16,7 @@
 
           <figure>
             <img
-              src="./images/robot.jpg"
+              src="{{ asset('images/robot.jpg') }}"
               alt="Robot de compétition sur une piste"
               loading="eager"
               decoding="async"
@@ -36,5 +24,5 @@
             <figcaption class="secondary">Concours des collèges — Technologie 3<sup>e</sup></figcaption>
           </figure>
         </article>
-      </section>
-@include('includes.footer')
+    </section>
+</x-app-layout>

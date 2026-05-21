@@ -8,13 +8,20 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Laravel Breeze Styles (Tailwind / JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- 1. AJOUT DE PICO.CSS (Pour garder tes composants comme les boutons, articles et grids de l'accueil) -->
+    <link rel="stylesheet" href="{{ asset('css/pico.css') }}">
+
+    <!-- 2. Ton CSS personnalisé (Barre de navigation, dropdowns, etc.) -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    <!-- Bootstrap 5 (Si tu en as besoin pour certaines pages) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 

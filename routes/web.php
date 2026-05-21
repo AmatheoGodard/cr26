@@ -92,4 +92,4 @@ Volt::route('logout', 'pages.auth.logout')->name('logout');
 
 
 // CORRECTION : Commenter cette ligne pour éviter les conflits de middleware (guest vs auth)
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
