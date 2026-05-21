@@ -8,160 +8,140 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Laravel Breeze Styles (Tailwind / JS) -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <!-- 1. AJOUT DE PICO.CSS (Pour garder tes composants comme les boutons, articles et grids de l'accueil) -->
     <link rel="stylesheet" href="{{ asset('css/pico.css') }}">
 
-    <!-- 2. Ton CSS personnalisé (Barre de navigation, dropdowns, etc.) -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-    <!-- Bootstrap 5 (Si tu en as besoin pour certaines pages) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="{{ route('home') }}">Projet concours-robots</a>
 
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <a href="{{ route('home') }}">Projet concours-robots</a>
+            <button class="burger" id="burger">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
 
-                <button class="burger" id="burger">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="{{ route('home') }}">Accueil</a></li>
 
-            <ul class="nav-links" id="nav-links">
+            @guest
+            <li class="dropdown">
+                <a href="#">Collèges ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Élèves</a></li>
+                    <li><a href="">Équipe</a></li>
+                </ul>
+            </li>
 
-                <li><a href="{{ route('home') }}">Accueil</a></li>
+            <li><a href="">Épreuves</a></li>
+            <li><a href="">Classement</a></li>
 
-                @guest
-                <li class="dropdown">
-                    <a href="#">Collèges ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">Élèves</a></li>
-                        <li><a href="">Équipe</a></li>
-                    </ul>
-                </li>
+            <li class="dropdown">
+                <a href="#">Édition ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="">2024</a></li>
+                    <li><a href="">2025</a></li>
+                </ul>
+            </li>
 
-                <li><a href="">Épreuves</a></li>
-                <li><a href="">Classement</a></li>
+            @if (Route::has('login'))
+            <li><a href="{{ route('login') }}">Connexion</a></li>
+            @endif
 
-                <li class="dropdown">
-                    <a href="#">Édition ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">2024</a></li>
-                        <li><a href="">2025</a></li>
-                    </ul>
-                </li>
+            @if (Route::has('register'))
+            <li><a href="{{ route('register') }}">Inscription</a></li>
+            @endif
+            @endguest
 
-                @if (Route::has('login'))
-                <li><a href="{{ route('login') }}">Connexion</a></li>
-                @endif
+            @auth
+            <li class="dropdown">
+                <a href="#">Collèges ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Élèves</a></li>
+                    <li><a href="">Équipe</a></li>
+                </ul>
+            </li>
 
-                @if (Route::has('register'))
-                <li><a href="{{ route('register') }}">Inscription</a></li>
-                @endif
-                @endguest
+            <li><a href="">Épreuves</a></li>
+            <li><a href="">Classement</a></li>
 
+            <li class="dropdown">
+                <a href="#">Édition ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="">2024</a></li>
+                    <li><a href="">2025</a></li>
+                </ul>
+            </li>
 
-                @auth
-                <li class="dropdown">
-                    <a href="#">Collèges ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">Élèves</a></li>
-                        <li><a href="">Équipe</a></li>
-                    </ul>
-                </li>
+            <li><a href="">Saisie Note</a></li>
 
-                <li><a href="">Épreuves</a></li>
-                <li><a href="">Classement</a></li>
+            <li class="dropdown">
+                <a href="#">Page Gestion ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Épreuves</a></li>
+                    <li><a href="{{ route('colleges.list') }}">Collèges</a></li>
 
-                <li class="dropdown">
-                    <a href="#">Édition ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">2024</a></li>
-                        <li><a href="">2025</a></li>
-                    </ul>
-                </li>
+                    <li class="dropdown">
+                        <a href="#">Concours ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('concours.index') }}">Liste des concours</a></li>
+                            <li><a href="{{ route('concours.create') }}">Créer un concours</a></li>
+                        </ul>
+                    </li>
 
-                <li><a href="">Saisie Note</a></li>
+                    <li><a href="">Abonnement</a></li>
+                    <li><a href="">Rôle</a></li>
 
-                <li class="dropdown">
-                    <a href="#">Page Gestion ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">Épreuves</a></li>
-                        <li><a href="{{ route('colleges.list') }}">Collèges</a></li>
+                    <li class="dropdown">
+                        <a href="#">Résultat ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Édition</a></li>
+                            <li><a href="">Exportation</a></li>
+                            <li><a href="">Modification</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
 
-                        {{-- SOUS-MENU CONCOURS --}}
-                        <li class="dropdown">
-                            <a href="#">Concours ▾</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('concours.index') }}">Liste des concours</a></li>
-                                <li><a href="{{ route('concours.create') }}">Créer un concours</a></li>
-                            </ul>
-                        </li>
+            <li class="dropdown">
+                <a href="#">Page Admin ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Genre</a></li>
+                    <li><a href="">Utilisateurs</a></li>
 
-                        <li><a href="">Abonnement</a></li>
-                        <li><a href="">Rôle</a></li>
+                    <li class="dropdown">
+                        <a href="#">Pays ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('pays.list') }}">Liste des pays</a></li>
+                            <li><a href="{{ route('pays.form') }}">Ajouter un pays</a></li>
+                            <li><a href="{{ route('pays.deletePage') }}">Supprimer un pays</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
 
-                        <li class="dropdown">
-                            <a href="#">Résultat ▾</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="">Édition</a></li>
-                                <li><a href="">Exportation</a></li>
-                                <li><a href="">Modification</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="logout-btn" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; padding: 0.5rem 0.8rem;">
+                        Déconnexion
+                    </button>
+                </form>
+            </li>
+            @endauth
+        </ul>
+    </nav>
 
-                <li class="dropdown">
-                    <a href="#">Page Admin ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="">Genre</a></li>
-                        <li><a href="">Utilisateurs</a></li>
+    <main class="container">
+        {{ $slot }}
+    </main>
 
-                        {{-- SOUS-MENU PAYS NETTOYÉ ET SÉCURISÉ --}}
-                        <li class="dropdown">
-                            <a href="#">Pays ▾</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ route('pays.list') }}">Liste des pays</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pays.form') }}">Ajouter un pays</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pays.deletePage') }}">Supprimer un pays</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="logout-btn" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; padding: 0.5rem 0.8rem;">
-                            Déconnexion
-                        </button>
-                    </form>
-                </li>
-                @endauth
-            </ul>
-        </nav>
-
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
+    @include('includes.footer')
 
     <script>
         const burger = document.getElementById('burger');
