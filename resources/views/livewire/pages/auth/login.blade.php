@@ -20,8 +20,8 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        // CORRECTION : Redirection par défaut vers 'dashboard' au lieu de 'home'
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+
+        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
     }
 }; ?>
 
